@@ -168,7 +168,7 @@ Foram necessários ajustes da intensidade de vibração dos atuadores, devido à
 
 ## Versão de Produção
 
-![Versão_de_Produção](https://github.com/abliveira/Caminho-Livre/blob/main/midia/4jpg)
+![Versão_de_Produção](https://github.com/abliveira/Caminho-Livre/blob/main/midia/4.jpg)
 
 A versão de "produção" foi criada para ser o mais próximo possível de um produto real. Com o projeto mais maduro, e características melhor definidas, são abandonadas facilidades adotadas exclusivamente para desenvolvimento, limitando as possibilidades mudanças radicais, mas atingindo  melhor eficiência, custo, visual e ergonomia, sem comprometer a funcionalidade. 
 
