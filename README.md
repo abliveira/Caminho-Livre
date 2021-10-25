@@ -46,7 +46,7 @@ Após a conclusão do projeto, como trabalho de graduação, a criação deste r
 
 *(Texto extraído e adaptado na [monografia][monografia-pdf] deste trabalho*
 
-[monografia-pdf]: https://github.com/abliveira/Caminho-Teste/blob/0b8b0f25ac2f70357020341182dcb537150a3389/docs/Desenvolvimento%20de%20Tecnologia%20Assistiva%20para%20Locomo%C3%A7%C3%A3o%20de%20Pessoas%20com%20Defici%C3%AAncia%20Visual.pdf
+[monografia-pdf]: https://github.com/abliveira/Caminho-Livre/blob/main/docs/Desenvolvimento%20de%20Tecnologia%20Assistiva%20para%20Locomoção%20de%20Pessoas%20com%20Deficiência%20Visual.pdf
 
 ## Por que fazer?
 
