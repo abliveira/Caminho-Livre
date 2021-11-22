@@ -15,15 +15,6 @@
     não abrangendo o conteúdo científico ou técnico (Lei nº 9.610, de 19 de fevereiro de 1998, 
     http://www.planalto.gov.br/ccivil_03/leis/l9610.htm).
 
-To do:
-
-  - Atualizar biblioteca VL
-  - Por defines em OLED e print
-  - Por defines de sensores
-  - por defines de print no prod
-  - por aviso em ambos firmwares q os ambos prints e oled podem afetar velocidade
-  - faltou o buzzer
-
 */
 
 
@@ -36,7 +27,7 @@ To do:
 
 // VL53L0X
 
-#define VL_ENABLE // Descomentar ativa o sensor VL53L0X. Obs: Habilitar ambos sensores simultaneamente pode reduzir a velocidade de leitura
+#define VL_ENABLE // Comentar desativa o sensor VL53L0X. Obs: Habilitar ambos sensores simultaneamente pode reduzir a velocidade de leitura
 
 VL53L0X vl_sensor;
 
@@ -68,7 +59,7 @@ String VL_trig;
 
 // HC-SR04
 
-#define HC_ENABLE // Descomentar ativa o sensor HC-SR04. Obs: Habilitar ambos sensores simultaneamente pode reduzir a velocidade de leitura
+#define HC_ENABLE // Comentar desativa o sensor HC-SR04. Obs: Habilitar ambos sensores simultaneamente pode reduzir a velocidade de leitura
 
 // Portas ligadas ao sensor HC-SR04
 const int hc_trig_pin = 4;
@@ -88,13 +79,13 @@ String HC_trig;
 
 // No modo de alerta progressivo, a frequência do padrão vibratório do alerta aumenta de acordo proximidade do obstáculo.
 // Descomentar ativa o alerta progressivo:
-//#define PROGRESSIVE_ALERT ?????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????
+//#define PROGRESSIVE_ALERT
 
 const int min_alert_pulses = 2; // O mínimo de pulsos de vibração que serão gerados quando houver um alerta de obstáculo
 const int motor1_pin = 3;    // Saída PWM do motor 1 ligada no pino 3 do microcontrolador
 const int motor2_pin = 5;    // Saída PWM do motor 2 ligada no pino 5 do microcontrolador
 
-const int min_pwm = 30; ?????????????????????????????????????????????????????????????????????
+const int min_pwm = 30;
 const int max_pwm = 230;    // Limite máximo da escala de PWM no motor (Max = 255): Mais baixo consome menos, mais alto é mais fácil perceber
 
 
@@ -108,7 +99,7 @@ U8GLIB_SH1106_128X64 u8g(U8G_I2C_OPT_NONE);   // Definição do modelo de displa
 
 int HC_getDistance (void) {
 
-  // Reseta o pino Trig e aguarda 2 uS \\ PODEM SERRRRRRRRRRRRRRRRR 5USSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS
+  // Reseta o pino Trig e aguarda 2 uS (Pode ser até 5uS)
   digitalWrite(hc_trig_pin, LOW);
   delayMicroseconds(2); 
 
@@ -121,18 +112,13 @@ int HC_getDistance (void) {
   // A função pulseIn() aguarda o pino ir de baixo para alto, e cronometra o tempo até o pino voltar para baixo
   long duration = pulseIn(hc_echo_pin, HIGH);
 
-  /*Your issue is due to a lack of timeout of some chinese boards. If it sends a pulse but don't get the echo back, it's stuck.
-    By claping in your hands you produce a sound that trigger the echo and unstuck you from an infinite waiting.
-    The simplest solution is to have a timeout in your software (if you ise Arduino's pulseIn the default timeout is 1 second
-    but you can specify it in microseconds, just look at the documentation), and then, if you trigger the timeout (with pulseIn it
-    returns 0 when timeout occurs), you know that you'll be stucked. At this moment, you have a very simple solution :
-    just switch pinMode on Echo to OUTPUT, and send a LOW pulse, then go back to INPUT. By ding this you simulate an echo and the sensor chip will be unstucked !*/
-
-  if (duration == 0) { // If we timed out
-    pinMode(hc_echo_pin, OUTPUT); // Then we set echo pin to output mode
-    digitalWrite(hc_echo_pin, LOW); // We send a LOW pulse to the echo pin
+  // Se der timeout, pode ser que o sensor travou
+  // Para destravar, muda o pino Echo para saída para dar um pulso, e volta para entrada
+  if (duration == 0) { 
+    pinMode(hc_echo_pin, OUTPUT);
+    digitalWrite(hc_echo_pin, LOW);
     delayMicroseconds(200);
-    pinMode(hc_echo_pin, INPUT); // And finaly we come back to input mode
+    pinMode(hc_echo_pin, INPUT);
   }
 
   // Calcula a distância através da duração do pulso
@@ -146,6 +132,7 @@ int HC_getDistance (void) {
 
 void draw(void) {
 
+#ifdef VL_ENABLE
   // Formatação de strings do sensor VL53L0X para o display OLED
   if (vl_distance < vl_max_distance)
     VL_distance = "VL Dist: " + String (vl_distance) + " mm";
@@ -153,14 +140,6 @@ void draw(void) {
     VL_distance = "VL Dist: ?";
   VL_trig = "VL Trig: <" + String (vl_trig) + " mm";
   VL_alert = "VL Alert: " + String (vl_alert);
-
-  // Formatação de strings do sensor HC-SR04 para o display OLED
-  if (hc_distance < hc_max_distance)
-    HC_distance = "HC Dist: " + String (hc_distance) + " cm";
-  else
-    HC_distance = "HC Dist: ?";
-  HC_trig = "HC Trig: <" + String (hc_trig) + " cm";
-  HC_alert = "HC Alert: " + String (hc_alert);
 
   // Comandos de escrita no display OLED
   u8g.setFont(u8g_font_6x12);
@@ -171,11 +150,6 @@ void draw(void) {
   u8g.setPrintPos(0, 30);
   u8g.print(VL_alert);
   u8g.setPrintPos(0, 40);
-  u8g.print(HC_distance);
-  u8g.setPrintPos(0, 50);
-  u8g.print(HC_trig);
-  u8g.setPrintPos(0, 60);
-  u8g.print(HC_alert);
 
   // Repetição de dados do OLED no Serial
   Serial.print(VL_distance);
@@ -184,11 +158,32 @@ void draw(void) {
   Serial.print("\t");
   Serial.print(VL_alert);
   Serial.print("\t");
+#endif
+
+#ifdef HC_ENABLE
+  // Formatação de strings do sensor HC-SR04 para o display OLED
+  if (hc_distance < hc_max_distance)
+    HC_distance = "HC Dist: " + String (hc_distance) + " cm";
+  else
+    HC_distance = "HC Dist: ?";
+  HC_trig = "HC Trig: <" + String (hc_trig) + " cm";
+  HC_alert = "HC Alert: " + String (hc_alert);
+
+  // Comandos de escrita no display OLED
+  u8g.setFont(u8g_font_6x12);
+  u8g.print(HC_distance);
+  u8g.setPrintPos(0, 50);
+  u8g.print(HC_trig);
+  u8g.setPrintPos(0, 60);
+  u8g.print(HC_alert);
+
+  // Repetição de dados do OLED no Serial
   Serial.print(HC_distance);
   Serial.print("\t");
   Serial.print(HC_trig);
   Serial.print("\t");
   Serial.println(HC_alert);
+#endif
 }
 
 
