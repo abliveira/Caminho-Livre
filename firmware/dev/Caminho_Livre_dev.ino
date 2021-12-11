@@ -149,7 +149,6 @@ void draw(void) {
   u8g.print(VL_trig);
   u8g.setPrintPos(0, 30);
   u8g.print(VL_alert);
-  u8g.setPrintPos(0, 40);
 
   // Repetição de dados do OLED no Serial
   Serial.print(VL_distance);
@@ -171,6 +170,7 @@ void draw(void) {
 
   // Comandos de escrita no display OLED
   u8g.setFont(u8g_font_6x12);
+  u8g.setPrintPos(0, 40);
   u8g.print(HC_distance);
   u8g.setPrintPos(0, 50);
   u8g.print(HC_trig);
