@@ -1,4 +1,5 @@
 /* 
+
   Caminho Livre - Firmware Versão Prod
 
   Desenvolvido por A. OLIVEIRA (abliveira)
@@ -6,7 +7,7 @@
   Este firmware faz parte do projeto Caminho Livre, disponível em https://github.com/abliveira/Caminho-Livre
 
   Compatível com a placa customizada do projeto. Layout disponível no link.
-
+  
   Licença de Uso
     A reprodução do projeto Caminho Livre deve ser feita somente seguindo a licença de uso 
     Creative Commons Attribution-ShareAlike 4.0 International License (https://creativecommons.org/licenses/by-sa/4.0/deed.pt_BR). 
@@ -14,21 +15,8 @@
     não abrangendo o conteúdo científico ou técnico (Lei nº 9.610, de 19 de fevereiro de 1998, 
     http://www.planalto.gov.br/ccivil_03/leis/l9610.htm).
 
-  Changelog:
-  - Comentários e renomeação de variáveis
-  - Correção de bug de vibração quando no modo de alerta progressivo
-  - Leitura de bateria no main loop
-  - Tradução dos comentários originais
-
-  To do:
-  - Existe uma situação na qual o alerta da bateria pode não ser executado pois o alerta padrao estara rodando. Deveria tentar de novo, e se conseguir ser executado, aí sim espera mais 5min
-  - Possivelmente é uma boa inverter no inicio a quantidade de pulsos (menos pulsos, melhor a bateria)
-  - Atualizar biblioteca VL53
-  - Colocar autorias
-  - Incluir no cabeçalho instruções de configurações de compilação
-  - Corrigir pinos para placa PCB
-
 */
+
 
 // Bibliotecas
 
@@ -101,7 +89,7 @@ const int max_pwm = 230;    // Limite máximo da escala de PWM no motor (Max = 2
 void read_battery () {
 
   // Lê o valor da porta analógica ligada ao divisor de tensão do sinal da bateria
-  battery_value = analogRead(A2);
+  battery_value = analogRead(A6);
   
   // O valor máximo da tensão da bateria lido pela porta analógica é aproximadamente 651:
   // Tensão máxima da bateria: 4,2 V. Após o divisor de tensão: 2,1 V. Valor de referência da porta analógica: 3,3 V. Range do ADC: 0  a 1023. Logo: 3,3/2,1*1023 = 651
@@ -109,11 +97,11 @@ void read_battery () {
 
   // Determina o status para o padrão de vibração para informar a tensão
   if (battery_voltage_mv > 3900)   // Cheia de 3,9 V a 4,2 V
-    battery_status = 3;
+    battery_status = 1;
   else if (battery_voltage_mv > 3600)    // Regular de 3,6 a 3,9 V
     battery_status = 2;
   else    // Fraca abaixo de 3,6 V
-    battery_status = 1;
+    battery_status = 3;
 }
 
 
@@ -180,7 +168,7 @@ void setup() {
   Serial.print("\tTensão da Bateria: ");;
   Serial.print(battery_voltage_mv);
   Serial.print(" mV");
-  if (battery_status == 3) // Cheia de 3,9 V a 4,2 V
+  if (battery_status == 1) // Cheia de 3,9 V a 4,2 V
     Serial.println(". Tensão ok.\t Nível 3/3\n");
   else if (battery_status == 2)    // Regular de 3,6 a 3,9 V
     Serial.println(". Tensão regular.\t Nível 2/3\n");
@@ -281,7 +269,7 @@ void loop() {
     read_battery();
     
     // Se a tensão for baixa, prepara o alerta da bateria
-    if (battery_status == 1)
+    if (battery_status == 3)
       alert_bat = 1;
   }
 
