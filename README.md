@@ -180,14 +180,14 @@ Para a eletrônica, foi projetada uma placa de circuito impresso customizado, ab
 - Tubo de alumínio
 - Serra e torno mecânico
 - Placa de circuito impressa (sob encomenda)
-- Componentes eletrônicos da placa <!---(**Lista BOM**)-->
+- [Componentes eletrônicos da placa](https://github.com/abliveira/Caminho-Livre/blob/b2feefd2455f06a2715864a186283813886027fd/hardware/prod/BOM%20Placa%20de%20Controle%20(M328PB)%20-%20Caminho%20Livre.xls)
 - Sensores de distância VL53L0X
 - Atuador vibração linear
 - Bateria de lítio 3.7V 14500
 - Arduino ou Gravador ISCP com jumpers
 - Materiais para soldagem: estanho e ferro de solda
 - Software Arduino IDE
-- Software **avrdude
+- Software avrdude
 - Software de Desenho Eletrônico
 - Software de Desenho Mecânico
 
@@ -254,7 +254,8 @@ Como pontos fortes, foram citados a facilidade de recarga (carregador celular e 
 
 # Pendências
 
-- Desenvolvimento de impermeabilização da eletrônica
+- Desenvolvimento de invólucro e impermeabilização da eletrônica. 
+    - UPDATE: Os novos módulos TOF50C/TOF200C/TOF400C do sensor já contam com lente e possuem proteção parcial proteção contra poeira
 - Estudo de implementação de sensor frontal
 - Uso de componentes menores e mais baratos (ex. microcontrolador) para redução do tamanho e custo da placa
 - Estudo de embarcar conversor Serial-USB para permitir atualizações de firmware via USB
