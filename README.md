@@ -44,7 +44,7 @@ Após a conclusão do projeto, como trabalho de graduação, a criação deste r
 >
 > *A integração completa na sociedade exige, para pessoas com quaisquer deficiências, que todos os seus direitos sejam garantidos, como saúde, educação, emprego, transporte e informação. Tecnologias assistivas, isto é, qualquer equipamento, criado ou adaptado, com o intuito de melhorar a capacidade funcional de pessoas com deficiência, têm se mostrado ferramentas poderosas no auxílio a esses direitos.*
 
-*(Texto extraído e adaptado na [monografia][monografia-pdf] deste trabalho*
+*(Texto extraído e adaptado na [monografia][monografia-pdf] deste trabalho)*
 
 [monografia-pdf]: https://github.com/abliveira/Caminho-Livre/blob/main/docs/Desenvolvimento%20de%20Tecnologia%20Assistiva%20para%20Locomoção%20de%20Pessoas%20com%20Deficiência%20Visual.pdf
 
@@ -82,7 +82,7 @@ O desenvolvimento do projeto foi dividido em duas versões: uma [versão de dese
 
 O funcionamento se dá pela identificação de obstáculos pelo sensor de distância, que fornece dados para o microcontrolador. Se interpretar que há uma barreira, é gerado um alerta para usuário com antecedência necessária para que seja feito um desvio no percurso. A geração de alertas para o usuário é feita por atuador de vibração, e o ajuste de sensibilidade, que é a distância para disparo do alerta, é feito com potenciômetros — deve ser um valor de distância segura, mas sem alertar desnecessariamente o usuário.
 
-O tipo de sensor usado para este projeto é critico: requer uma distância de medição na ordem de metros, alta velocidade de resposta, capacidade de detectar diferentes tipos de materiais e sob diferentes condições ambientais, como luz e umidade, tamanho e consumo de energia reduzidos e ainda precisam ter custo razoavelmente baixo.
+O tipo de sensor usado para este projeto é crítico: requer uma distância de medição na ordem de metros, alta velocidade de resposta, capacidade de detectar diferentes tipos de materiais e sob diferentes condições ambientais, como luz e umidade, tamanho e consumo de energia reduzidos e ainda precisam ter custo razoavelmente baixo.
 
 Considerando a necessidade de uso diário e o tempo de deslocamento urbano, estimado pelos usuários em até 3 horas, o dispositivo conta com bateria recarregável, larga autonomia e prático sistema de recarregamento.
 
@@ -152,7 +152,7 @@ O sistema eletrônico foi montado em uma bengala dobrável utilizando-se fita ad
 
 ### Testes <sup><sub>(dev)</sub></sup>
 
-Esta versão do projeto foi testada com foco no desempenho dos sensores e na funcionalidade do equipamento em cenários controlados. Para ambos os sensores, foram analisados características como alcance, resolução, estabilidade, tempo de resposta e consistência das medições em determinados tipos de materiais, ângulos de superfícies, refletâncias e opacidades. 
+Esta versão do projeto foi testada com foco no desempenho dos sensores e na funcionalidade do equipamento em cenários controlados. Para ambos os sensores, foram analisadas características como alcance, resolução, estabilidade, tempo de resposta e consistência das medições em determinados tipos de materiais, ângulos de superfícies, refletâncias e opacidades. 
 
 O sensor ultrassônico HC-SR04, possui boa distância máxima de 4 m e boa resolução, mas para distâncias curtas. Este tipo de sensor apresentou falhas com tecidos e superfícies inclinadas, devido às características da onda emitida que pode ser facilmente absorvida ou refletida. Além disso, há diferença de qualidade entre sensores HC-SR04, sendo que algumas unidades apresentaram instabilidade.
 
@@ -209,7 +209,7 @@ A bateria é uma célula Li-Ion 14500 de 900 mAh, que devido ao encapsulamento c
 <!---
 **Figura 32: Cabo USB magnético utilizado para carregamento.**
 -->
-O controle do carregamento da bateria é feito pelo circuito integrado TP4056. A corrente máxima é determinada por um resistor entre os pino PROG e GND.  O valor de 2,2 kΩ limita a corrente em 0,5 A, ideal para um carregamento rápido sem danificar a bateria. Os pinos CHRG e STBY indicam os estados de "em carregamento" e "carregado", respectivamente. Como sinalizadores luminosos não atendem à necessidade de portadores de deficiência visual, os pinos são ligados ao microcontrolador, para sinalizar estes estados através de padrões vibratórios. Complementarmente, o circuito integrado DW01 junto ao MOSFET duplo FS8205 protegem a bateria contra descarga e carregamento excessivos e contra sobrecorrente. O monitoramento do nível de tensão da bateria é feito por um divisor de tensão ligado a uma porta analógica do microcontrolador: caso a bateria esteja fraca, uma função no firmware ativa o atuador para o usuário seja alertado através de padrões vibratórios. O nível de carga também é indicado toda vez ao ligar o dispositivo.
+O controle do carregamento da bateria é feito pelo circuito integrado TP4056. A corrente máxima é determinada por um resistor entre os pinos PROG e GND.  O valor de 2,2 kΩ limita a corrente em 0,5 A, ideal para um carregamento rápido sem danificar a bateria. Os pinos CHRG e STBY indicam os estados de "em carregamento" e "carregado", respectivamente. Como sinalizadores luminosos não atendem à necessidade de portadores de deficiência visual, os pinos são ligados ao microcontrolador, para sinalizar estes estados através de padrões vibratórios. Complementarmente, o circuito integrado DW01 junto ao MOSFET duplo FS8205 protegem a bateria contra descarga e carregamento excessivos e contra sobrecorrente. O monitoramento do nível de tensão da bateria é feito por um divisor de tensão ligado a uma porta analógica do microcontrolador: caso a bateria esteja fraca, uma função no firmware ativa o atuador para o usuário seja alertado através de padrões vibratórios. O nível de carga também é indicado toda vez ao ligar o dispositivo.
 
 <!---
 Figura 33: Diagrama do sistema de alimentação do circuito.
